@@ -77,5 +77,6 @@
   	<module>dscsr</module>
   	<module>srchmgnt</module>
     <module>search-models</module>
+    <module>shared</module>
   </modules>
 </project>

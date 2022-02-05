@@ -16,5 +16,5 @@ public class City
     private String favCity;
     private Boolean active;
     private String state;
-    private Integer pin;
+    private Long pin;
 }
