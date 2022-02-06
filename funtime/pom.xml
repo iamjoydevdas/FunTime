@@ -79,5 +79,6 @@
     <module>search-models</module>
     <module>shared</module>
     <module>booking</module>
+    <module>booking-feign</module>
   </modules>
 </project>
