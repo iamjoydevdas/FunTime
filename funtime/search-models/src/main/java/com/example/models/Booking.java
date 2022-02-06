@@ -1,5 +1,6 @@
 package com.example.models;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -15,18 +16,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @Builder
-public class Screen {
-	private Long screenId;
-	private String screenName;
-	private Integer totalSeats;
-	private List<ShowTime> movieShow;
-	
-	private List<ScreenSeat> seats;
-	
-	public Screen(Screen s, List<ShowTime> movieShow) {
-		this.screenId = s.screenId;
-		this.screenName = s.screenName;
-		this.totalSeats = s.totalSeats;
-		this.movieShow = movieShow;
-	}
+public class Booking {
+	private Long bookingId;
+	private LocalDateTime bookingTimeStamp;
+	private Double price;
+	private List<ShowSeat> bookedSeats;
 }

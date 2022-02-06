@@ -2,6 +2,7 @@ package com.example.models;
 
 import java.util.List;
 
+import com.example.models.Screen.ScreenBuilder;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -15,18 +16,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @Builder
-public class Screen {
-	private Long screenId;
-	private String screenName;
-	private Integer totalSeats;
-	private List<ShowTime> movieShow;
-	
-	private List<ScreenSeat> seats;
-	
-	public Screen(Screen s, List<ShowTime> movieShow) {
-		this.screenId = s.screenId;
-		this.screenName = s.screenName;
-		this.totalSeats = s.totalSeats;
-		this.movieShow = movieShow;
-	}
+//Table SHOW_SEATS
+public class ShowSeat {
+	private Long showSeatId;
+	private String status;
+	private Long bookedSeatId;
 }

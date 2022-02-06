@@ -27,7 +27,7 @@ public class SearchManagement implements CommandLineRunner
 
 	@Override
 	public void run(String... args) throws Exception {
-		searchRepo.getMoviesBySearching();
+	//	searchRepo.getMoviesBySearching();
 		
 	}
 }

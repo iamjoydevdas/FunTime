@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.apache.catalina.filters.AddDefaultCharsetFilter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -18,7 +17,9 @@ import com.example.models.City;
 import com.example.models.GenericSearch;
 import com.example.models.Movie;
 import com.example.models.Screen;
+import com.example.models.ScreenSeat;
 import com.example.models.ShowTime;
+import com.example.payload.Payload;
 import com.example.srchmgnt.repo.ISearchRepo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -91,26 +92,26 @@ public class SearchRepo implements ISearchRepo {
 				.build();
 	}
 	
-	private final String CINEMA_HALLS_BY_CITY_MOVIE = "SELECT  CINEMA_HALL_ID, CINEMA_HALL_SHORT_NAME, CINEMA_HALL_NAME, MOVIE_SHOW_TIME_STARTTIME, SCREEN_NAME " + 
+	private final String CINEMA_HALLS_BY_CITY_MOVIE = "SELECT  CINEMA_HALL_ID, CINEMA_HALL_SHORT_NAME, CINEMA_HALL_NAME, MOVIE_SHOW_TIME_STARTTIME, SCREEN_NAME, SCREEN_ID, MOVIE_SHOW_TIME_ID " + 
 			" FROM CITY C, CINEMA_HALL CH, SCREEN S, MOVIE_SHOW_TIME MST, MOVIE M " + 
 			"WHERE  " + 
 			"C.CITY_SHORT_NAME = ? AND C.CITY_ID =  CH.CINEMA_HALL_CITY_ID " + 
 			"AND CH.CINEMA_HALL_ID = S.SCREEN_CINEMA_HALL_ID " + 
 			"AND MST.MOVIE_SHOW_TIME_SCREEN_ID = S.SCREEN_ID " + 
-			"AND M.MOVIE_ID = MST.MOVIE_SHOW_TIME_MOVIE_ID AND M.MOVIE_ID=1";
+			"AND M.MOVIE_ID = MST.MOVIE_SHOW_TIME_MOVIE_ID AND M.MOVIE_ID=?";
 
 	@Override
 	public List<CinemaHall> getCinemaHallInformations(String city, Long movieId) {
 		city="KOLK";
 		Map<CinemaHall, Map<Screen, List<ShowTime>>>  cinemaHalls = new HashMap<>();
-		jdbcTemplate.query(CINEMA_HALLS_BY_CITY_MOVIE, new Object[] { city } ,rs -> {
+		jdbcTemplate.query(CINEMA_HALLS_BY_CITY_MOVIE, new Object[] { city, movieId } ,rs -> {
 			CinemaHall ch = CinemaHall.builder()
 						.cinemaHallId(rs.getLong("CINEMA_HALL_ID"))
 						.cinemaHallName(rs.getString("CINEMA_HALL_NAME"))
 						.cinemaHallShortName(rs.getString("CINEMA_HALL_SHORT_NAME"))
 					.build();
-			Screen screen = Screen.builder().screenName(rs.getString("SCREEN_NAME")).build();
-			ShowTime showTime = ShowTime.builder().movieShowStartTime(rs.getString("MOVIE_SHOW_TIME_STARTTIME")).build();
+			Screen screen = Screen.builder().screenId(rs.getLong("SCREEN_ID")).screenName(rs.getString("SCREEN_NAME")).build();
+			ShowTime showTime = ShowTime.builder().movieShowId(rs.getLong("MOVIE_SHOW_TIME_ID")).movieShowStartTime(rs.getString("MOVIE_SHOW_TIME_STARTTIME")).build();
 			
 			Map<Screen, List<ShowTime>> screenMap = cinemaHalls.get(ch);
 			if(screenMap == null) {
@@ -139,7 +140,7 @@ public class SearchRepo implements ISearchRepo {
 			"C.CITY_SHORT_NAME = 'KOLK' AND C.CITY_ID =  CH.CINEMA_HALL_CITY_ID " + 
 			"AND CH.CINEMA_HALL_ID = S.SCREEN_CINEMA_HALL_ID " + 
 			"AND MST.MOVIE_SHOW_TIME_SCREEN_ID = S.SCREEN_ID " + 
-			"AND M.MOVIE_ID = MST.MOVIE_SHOW_TIME_MOVIE_ID AND M.MOVIE_TITLE like \"%YE%\" " + 
+			"AND M.MOVIE_ID = MST.MOVIE_SHOW_TIME_MOVIE_ID AND M.MOVIE_TITLE like ? " + 
 			"UNION " + 
 			"SELECT MOVIE_ID, MOVIE_TITLE, MOVIE_DESCRIPTION, DURATION, LANG, GENERE, COUNTRY, RELEASE_DATE, 'GENERE' TYPE " + 
 			" FROM CITY C, CINEMA_HALL CH, SCREEN S, MOVIE_SHOW_TIME MST, MOVIE M " + 
@@ -147,7 +148,7 @@ public class SearchRepo implements ISearchRepo {
 			"C.CITY_SHORT_NAME = 'KOLK' AND C.CITY_ID =  CH.CINEMA_HALL_CITY_ID " + 
 			"AND CH.CINEMA_HALL_ID = S.SCREEN_CINEMA_HALL_ID " + 
 			"AND MST.MOVIE_SHOW_TIME_SCREEN_ID = S.SCREEN_ID " + 
-			"AND M.MOVIE_ID = MST.MOVIE_SHOW_TIME_MOVIE_ID AND M.GENERE like \"%SUS%\" " + 
+			"AND M.MOVIE_ID = MST.MOVIE_SHOW_TIME_MOVIE_ID AND M.GENERE like ? " + 
 			"UNION " + 
 			"SELECT MOVIE_ID, MOVIE_TITLE, MOVIE_DESCRIPTION, DURATION, LANG, GENERE, COUNTRY, RELEASE_DATE, 'LANG' TYPE " + 
 			" FROM CITY C, CINEMA_HALL CH, SCREEN S, MOVIE_SHOW_TIME MST, MOVIE M " + 
@@ -155,14 +156,14 @@ public class SearchRepo implements ISearchRepo {
 			"C.CITY_SHORT_NAME = 'KOLK' AND C.CITY_ID =  CH.CINEMA_HALL_CITY_ID " + 
 			"AND CH.CINEMA_HALL_ID = S.SCREEN_CINEMA_HALL_ID " + 
 			"AND MST.MOVIE_SHOW_TIME_SCREEN_ID = S.SCREEN_ID " + 
-			"AND M.MOVIE_ID = MST.MOVIE_SHOW_TIME_MOVIE_ID AND M.LANG like \"%H%\"";
+			"AND M.MOVIE_ID = MST.MOVIE_SHOW_TIME_MOVIE_ID AND M.LANG like ? ";
 	
-	public GenericSearch getMoviesBySearching() {
+	public GenericSearch getMoviesBySearching(Payload payload) {
 		List<Movie> movie = new ArrayList<Movie>();
 		List<Movie> lang = new ArrayList<Movie>();
 		List<Movie> genere = new ArrayList<Movie>();
 		
-		jdbcTemplate.query(GENERIC_SEARCH, (rs)-> {
+		jdbcTemplate.query(GENERIC_SEARCH, new Object[] { "%"+payload.getSearchText()+"%", "%"+payload.getSearchText()+"%", "%"+payload.getSearchText()+"%" }, (rs)-> {
 			
 			switch(rs.getString("TYPE")) {
 			case "MOVIE":
@@ -177,7 +178,33 @@ public class SearchRepo implements ISearchRepo {
 			}
 				
 		});
-		System.out.println(GenericSearch.builder().genere(genere).language(lang).movie(movie).build());
 		return GenericSearch.builder().genere(genere).language(lang).movie(movie).build();
+	}
+	
+	private static final String FETCH_ALL_SEATS_IN_A_SCREEN = "SELECT SCREEN_SEAT_ID, SEAT_NUMBER, SEAT_TYPE " + 
+			"FROM CITY C, CINEMA_HALL CH, SCREEN S, MOVIE_SHOW_TIME MST, MOVIE M, SCREEN_SEAT SS " + 
+			"WHERE  " + 
+			"C.CITY_SHORT_NAME = ? AND C.CITY_ID =  CH.CINEMA_HALL_CITY_ID " + 
+			"AND CH.CINEMA_HALL_ID = S.SCREEN_CINEMA_HALL_ID " + 
+			"AND MST.MOVIE_SHOW_TIME_SCREEN_ID = S.SCREEN_ID " + 
+			"AND M.MOVIE_ID = MST.MOVIE_SHOW_TIME_MOVIE_ID AND M.MOVIE_ID= ? " + 
+			"AND SS.SCREEN_CINEMA_HALL_SEAT_ID = S.SCREEN_ID " + 
+			"AND CH.CINEMA_HALL_ID=? AND S.SCREEN_ID=? AND MST.MOVIE_SHOW_TIME_ID= ?";
+
+	@Override
+	public List<ScreenSeat> getScreenSeats(String cityId, Long movieId, Long cinemaHallId, Long screenId, Long movieShowTimeId) {
+		return jdbcTemplate.query(FETCH_ALL_SEATS_IN_A_SCREEN, new Object[] { cityId, movieId, cinemaHallId, screenId, movieShowTimeId } , new ScreenSetMapper());
+	}
+	
+	private class ScreenSetMapper implements RowMapper<ScreenSeat> {
+		@Override
+		public ScreenSeat mapRow(ResultSet rs, int rowNum) throws SQLException {
+			
+			return ScreenSeat.builder()
+					.seatId(rs.getLong("SCREEN_SEAT_ID"))
+					.seatNo(rs.getString("SEAT_NUMBER"))
+					.seatType(rs.getString("SEAT_TYPE"))
+					.build();
+		}
 	}
 }

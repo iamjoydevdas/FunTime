@@ -8,7 +8,9 @@ import com.example.models.City;
 import com.example.models.GenericSearch;
 import com.example.models.Movie;
 import com.example.models.Screen;
+import com.example.models.ScreenSeat;
 import com.example.models.ShowTime;
+import com.example.payload.Payload;
 
 public interface ISearchRepo {
 	List<City> getAllCities();
@@ -17,5 +19,7 @@ public interface ISearchRepo {
 	
 	List<CinemaHall> getCinemaHallInformations(String city, Long movieId);
 	
-	GenericSearch getMoviesBySearching();
+	GenericSearch getMoviesBySearching(Payload payload);
+	
+	List<ScreenSeat> getScreenSeats(String cityId, Long movieId, Long cinemaHallId, Long screenId, Long movieShowTimeId);
 }

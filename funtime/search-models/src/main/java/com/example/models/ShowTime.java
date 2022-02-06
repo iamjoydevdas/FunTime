@@ -1,6 +1,7 @@
 package com.example.models;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -16,13 +17,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class ShowTime {
-	private Integer movieShowId;
+	private Long movieShowId;
 	private LocalDate movieShowDate;
 	private String movieShowStartTime;
 	private String movieShowEndTime;
-	private Integer movieShowScreenId;
 	
 	private Movie movie;
-	
-	//private List<ShowSeat> tickets;
+	private List<Booking> bookings;
 }
