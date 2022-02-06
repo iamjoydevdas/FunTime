@@ -9,6 +9,7 @@ import com.example.models.GenericSearch;
 import com.example.models.Movie;
 import com.example.models.Screen;
 import com.example.models.ScreenSeat;
+import com.example.models.ShowSeat;
 import com.example.models.ShowTime;
 import com.example.payload.Payload;
 
@@ -23,4 +24,6 @@ public interface ISearchService {
 	GenericSearch getMoviesBySearching(Payload payload);
 	
 	List<ScreenSeat> getScreenSeats(String cityId, Long movieId, Long cinemaHallId, Long screenId, Long movieShowTimeId);
+	
+	List<ShowSeat> getScreenBookedSeats(String cityId, Long movieId, Long cinemaHallId, Long screenId, Long movieShowTimeId);
 }

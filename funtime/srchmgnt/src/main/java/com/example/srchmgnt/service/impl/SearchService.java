@@ -11,6 +11,7 @@ import com.example.models.GenericSearch;
 import com.example.models.Movie;
 import com.example.models.Screen;
 import com.example.models.ScreenSeat;
+import com.example.models.ShowSeat;
 import com.example.models.ShowTime;
 import com.example.payload.Payload;
 import com.example.srchmgnt.repo.ISearchRepo;
@@ -49,6 +50,13 @@ public class SearchService implements ISearchService {
 	public List<ScreenSeat> getScreenSeats(String cityId, Long movieId, Long cinemaHallId, Long screenId,
 			Long movieShowTimeId) {
 		return searchRepo.getScreenSeats(cityId, movieId, cinemaHallId, screenId, movieShowTimeId);
+	}
+
+	@Override
+	public List<ShowSeat> getScreenBookedSeats(String cityId, Long movieId, Long cinemaHallId, Long screenId,
+			Long movieShowTimeId) {
+		// TODO Auto-generated method stub
+		return searchRepo.getScreenBookedSeats(cityId, movieId, cinemaHallId, screenId, movieShowTimeId);
 	}
 
 

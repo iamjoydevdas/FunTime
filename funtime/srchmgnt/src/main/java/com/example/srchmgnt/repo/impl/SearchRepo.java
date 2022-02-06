@@ -18,6 +18,7 @@ import com.example.models.GenericSearch;
 import com.example.models.Movie;
 import com.example.models.Screen;
 import com.example.models.ScreenSeat;
+import com.example.models.ShowSeat;
 import com.example.models.ShowTime;
 import com.example.payload.Payload;
 import com.example.srchmgnt.repo.ISearchRepo;
@@ -207,4 +208,35 @@ public class SearchRepo implements ISearchRepo {
 					.build();
 		}
 	}
+
+	private static final String FETCH_ALL_BOOKED_SEATS_IN_A_SCREEN = "SELECT SEAT.SCREEN_SEAT_ID, SHOW_SEAT_STATUS " + 
+			"FROM CITY C, CINEMA_HALL CH, SCREEN S, MOVIE_SHOW_TIME MST, MOVIE M, SCREEN_SEAT SS, BOOKING B, SHOW_SEAT SEAT " + 
+			"WHERE  " + 
+			"C.CITY_SHORT_NAME = ? AND C.CITY_ID =  CH.CINEMA_HALL_CITY_ID " + 
+			"AND CH.CINEMA_HALL_ID = S.SCREEN_CINEMA_HALL_ID " + 
+			"AND MST.MOVIE_SHOW_TIME_SCREEN_ID = S.SCREEN_ID " + 
+			"AND M.MOVIE_ID = MST.MOVIE_SHOW_TIME_MOVIE_ID AND M.MOVIE_ID= ? " + 
+			"AND SS.SCREEN_CINEMA_HALL_SEAT_ID = S.SCREEN_ID " + 
+			"AND CH.CINEMA_HALL_ID=? AND S.SCREEN_ID=? AND MST.MOVIE_SHOW_TIME_ID= ? " +
+			"AND B.BOOKING_MOVIE_SHOW_TIME_ID = MST.MOVIE_SHOW_TIME_ID " + 
+			"AND SEAT.SCREEN_SEAT_ID = SS.SCREEN_SEAT_ID ";
+	
+	@Override
+	public List<ShowSeat> getScreenBookedSeats(String cityId, Long movieId, Long cinemaHallId, Long screenId,
+			Long movieShowTimeId) {
+		return jdbcTemplate.query(FETCH_ALL_BOOKED_SEATS_IN_A_SCREEN, new Object[] { cityId, movieId, cinemaHallId, screenId, movieShowTimeId } , new ShowSeatMapper());
+	}
+	
+	private class ShowSeatMapper implements RowMapper<ShowSeat> {
+		@Override
+		public ShowSeat mapRow(ResultSet rs, int rowNum) throws SQLException {
+			
+			return ShowSeat.builder()
+					.bookedSeatId(rs.getLong("SCREEN_SEAT_ID"))
+					.status(rs.getString("SHOW_SEAT_STATUS"))
+				//	.seatId(rs.getLong("SCREEN_SEAT_ID"))
+					.build();
+		}
+	}
+
 }

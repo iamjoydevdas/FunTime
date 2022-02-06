@@ -14,6 +14,7 @@ import com.example.models.City;
 import com.example.models.GenericSearch;
 import com.example.models.Movie;
 import com.example.models.ScreenSeat;
+import com.example.models.ShowSeat;
 import com.example.payload.Payload;
 import com.example.shared.handlers.ResponseHandlers;
 import com.example.shared.model.ServiceResponse;
@@ -52,5 +53,12 @@ public class SearchController {
 			@PathVariable("screen") Long screenId,
 			@PathVariable("movieShow") Long movieShowTimeId) {
 		return new ResponseHandlers<List<ScreenSeat>>().defaultResponse(searchService.getScreenSeats(cityId, movieId, cinemaHallId, screenId, movieShowTimeId));
+	}
+	
+	@GetMapping("/{city}/{movie}/{cinemaHall}/{screen}/{movieShow}/bookedseats")
+	public ResponseEntity<ServiceResponse<List<ShowSeat>>> getBookedSeatsByScreen(@PathVariable("city") String cityId, @PathVariable("movie") Long movieId, @PathVariable("cinemaHall") Long cinemaHallId, 
+			@PathVariable("screen") Long screenId,
+			@PathVariable("movieShow") Long movieShowTimeId) {
+		return new ResponseHandlers<List<ShowSeat>>().defaultResponse(searchService.getScreenBookedSeats(cityId, movieId, cinemaHallId, screenId, movieShowTimeId));
 	}
 }

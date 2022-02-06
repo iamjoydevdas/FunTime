@@ -78,5 +78,6 @@
   	<module>srchmgnt</module>
     <module>search-models</module>
     <module>shared</module>
+    <module>booking</module>
   </modules>
 </project>
