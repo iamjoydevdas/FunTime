@@ -1,4 +1,4 @@
-package com.example.shared.model;
+package com.example.model;
 
 import org.springframework.http.HttpStatus;
 

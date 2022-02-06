@@ -1,11 +1,11 @@
-package com.example.shared.handlers;
+package com.example.handlers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import com.example.shared.exception.FunTimeException;
-import com.example.shared.model.ServiceResponse;
-import com.example.shared.model.ServiceResponse.Errors;
+import com.example.exception.FunTimeException;
+import com.example.model.ServiceResponse;
+import com.example.model.ServiceResponse.Errors;
 
 import lombok.NoArgsConstructor;
 

@@ -1,4 +1,4 @@
-package com.example.shared.handlers;
+package com.example.handlers;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -23,7 +23,7 @@ import org.springframework.web.context.request.async.AsyncRequestTimeoutExceptio
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
-import com.example.shared.exception.FunTimeException;
+import com.example.exception.FunTimeException;
 
 
 @ControllerAdvice

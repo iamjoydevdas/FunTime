@@ -1,4 +1,4 @@
-package com.example.shared.exception;
+package com.example.exception;
 
 import org.springframework.http.HttpStatus;
 
