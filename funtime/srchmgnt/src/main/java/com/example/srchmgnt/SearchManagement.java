@@ -6,24 +6,20 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.stereotype.Component;
 
-import com.example.srchmgnt.api.FeignEg;
-import com.example.srchmgnt.repo.ISearchRepo;
-
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
+import com.example.BookingFeign;
 
 /**
  * Hello world!
  *
  */
-@EnableFeignClients
+@EnableFeignClients(basePackages="com.example")
 @ComponentScan(basePackages="com.example")
 @SpringBootApplication
 public class SearchManagement implements CommandLineRunner
 {
 	@Autowired
-	private FeignEg searchRepo;
+	private BookingFeign searchRepo;
 	
     public static void main( String[] args )
     {
@@ -33,7 +29,5 @@ public class SearchManagement implements CommandLineRunner
 	@Override
 	public void run(String... args) throws Exception {
 		System.out.println(searchRepo.ok());
-		searchRepo.ok();
-		
 	}
 }
