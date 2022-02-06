@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages="com.example")
 public class BookingManagement 
 {
     public static void main( String[] args )

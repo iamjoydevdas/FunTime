@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.handlers.ResponseHandlers;
+import com.example.model.ServiceResponse;
 import com.example.models.CinemaHall;
 import com.example.models.City;
 import com.example.models.GenericSearch;
@@ -16,8 +18,6 @@ import com.example.models.Movie;
 import com.example.models.ScreenSeat;
 import com.example.models.ShowSeat;
 import com.example.payload.Payload;
-import com.example.shared.handlers.ResponseHandlers;
-import com.example.shared.model.ServiceResponse;
 import com.example.srchmgnt.service.ISearchService;
 
 import lombok.AllArgsConstructor;

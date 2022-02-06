@@ -15,6 +15,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * Hello world!
  *
  */
+
+@ComponentScan(basePackages="com.example")
 @SpringBootApplication
 public class SearchManagement implements CommandLineRunner
 {

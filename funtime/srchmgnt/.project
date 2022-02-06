@@ -2,7 +2,10 @@
 <projectDescription>
   <name>srchmgnt</name>
   <comment>Spring Cloud Starter Parent. NO_M2ECLIPSE_SUPPORT: Project files created with the maven-eclipse-plugin are not supported in M2Eclipse.</comment>
-  <projects/>
+  <projects>
+    <project>search-models</project>
+    <project>shared</project>
+  </projects>
   <buildSpec>
     <buildCommand>
       <name>org.eclipse.wst.common.project.facet.core.builder</name>
