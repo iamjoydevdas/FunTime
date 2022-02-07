@@ -25,9 +25,6 @@ import lombok.RequiredArgsConstructor;
 public class BookingRepo implements IBookingRepo {
 	private final JdbcTemplate jdbcTemplate;
 	
-	@Value("${booking.prebooking.awit.time-in-minutes}")
-	private Integer awitingTime;
-	
 	private static final String INITIATE_BOOKING = "INSERT INTO `BOOKING` (NO_OF_SEATS, TIME_OF_BOOKING, BOOKING_STATUS, BOOKING_MOVIE_SHOW_TIME_ID, BOOKING_USER_ID) VALUES(?, now(), ?, ?, ?)";
 	private static final String INITIATE_SEAT_BOOKING = "INSERT INTO `SHOW_SEAT` (SHOW_SEAT_STATUS, SCREEN_SEAT_ID, MOVIE_SHOW_TIME_ID, BOOKING_ID) VALUES(?, ?, ?, ?)";
 
@@ -70,7 +67,6 @@ public class BookingRepo implements IBookingRepo {
 
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = { Exception.class })
 	public String confirmBooking(Payload payload) {
-		System.out.println("a"+awitingTime);
 		return null;
 	}
 	
