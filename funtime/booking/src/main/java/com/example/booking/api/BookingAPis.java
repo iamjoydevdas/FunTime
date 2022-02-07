@@ -1,13 +1,22 @@
 package com.example.booking.api;
 
-import org.springframework.web.bind.annotation.GetMapping;
+
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.IBookingApi;
+import com.example.payload.Payload;
+
 @RestController
-public class BookingAPis {
+public class BookingAPis implements IBookingApi  {
 	
-	@GetMapping("/Ok")
 	public String ok() {
 		return "hello";
 	}
+
+	@Override
+	public String checkout(Payload payload) {
+		
+		return null;
+	}
+
 }

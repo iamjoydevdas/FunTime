@@ -9,8 +9,8 @@
 		<artifactId>funtime</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>booking-feign</artifactId>
-	<name>booking-feign</name>
+	<artifactId>booking-contract</artifactId>
+	<name>booking-contract</name>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -20,9 +20,16 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-openfeign</artifactId>
 		</dependency>
+		
 		<dependency>
 			<groupId>com.example</groupId>
-			<artifactId>booking-contract</artifactId>
+			<artifactId>shared</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.example</groupId>
+			<artifactId>search-models</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
