@@ -1,12 +1,12 @@
 package com.example.booking.dto.impl;
 
 import static com.example.status.BookingStatus.PENDING;
+import static com.example.status.BookingStatus.RESEREVED_PAYMENT_AWAIT;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -27,7 +27,6 @@ public class BookingRepo implements IBookingRepo {
 	
 	private static final String INITIATE_BOOKING = "INSERT INTO `BOOKING` (NO_OF_SEATS, TIME_OF_BOOKING, BOOKING_STATUS, BOOKING_MOVIE_SHOW_TIME_ID, BOOKING_USER_ID) VALUES(?, now(), ?, ?, ?)";
 	private static final String INITIATE_SEAT_BOOKING = "INSERT INTO `SHOW_SEAT` (SHOW_SEAT_STATUS, SCREEN_SEAT_ID, MOVIE_SHOW_TIME_ID, BOOKING_ID) VALUES(?, ?, ?, ?)";
-	
 
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = { Exception.class })
 	public String checkout(Payload payload) {
@@ -36,7 +35,7 @@ public class BookingRepo implements IBookingRepo {
 
 		jdbcTemplate.update(connection -> {
 			PreparedStatement ps = connection.prepareStatement(INITIATE_BOOKING, Statement.RETURN_GENERATED_KEYS);
-			ps.setInt(1, 1);//payload.getSeats().size());
+			ps.setInt(1, 1);
 			ps.setString(2, PENDING.toString());
 			ps.setLong(3, payload.getMovieShowTimeId());
 			ps.setLong(4, payload.getUserId());
@@ -66,8 +65,21 @@ public class BookingRepo implements IBookingRepo {
 		return String.valueOf(bookingId);
 	}
 
+	private static final String CONFIRM_BOOKING = "update booking b, show_seat s " + 
+			"set booking_status = ?, SHOW_SEAT_STATUS = ? " + 
+			"where BOOKING_USER_ID= ? AND b.BOOKING_ID = ? " + 
+			"and  s.booking_id = b.booking_id";
+	
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = { Exception.class })
 	public String confirmBooking(Payload payload) {
+		jdbcTemplate.update(connection -> {
+			PreparedStatement ps = connection.prepareStatement(CONFIRM_BOOKING, Statement.RETURN_GENERATED_KEYS);
+			ps.setString(1,RESEREVED_PAYMENT_AWAIT.toString());
+			ps.setString(2, RESEREVED_PAYMENT_AWAIT.toString());
+			ps.setLong(3, payload.getUserId());
+			ps.setLong(4, payload.getBookingId());
+			return ps;
+		});
 		return null;
 	}
 	

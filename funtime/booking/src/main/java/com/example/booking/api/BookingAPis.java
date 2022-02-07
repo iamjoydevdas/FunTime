@@ -9,9 +9,6 @@ import com.example.payload.Payload;
 @RestController
 public class BookingAPis implements IBookingApi  {
 	
-	public String ok() {
-		return "hello";
-	}
 
 	@Override
 	public String checkout(Payload payload) {
