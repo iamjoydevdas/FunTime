@@ -18,7 +18,6 @@ public class BookingValidatorRepo implements IBookingValidator {
 	@Value("${booking.prebooking.awit.time-in-minutes}")
 	private Integer awitingTime;
 	
-	
 	private static final String CHECK_BOOKING_WITH_AWAITING_TIME = "SELECT count(BOOKING_USER_ID) No FROM fun_time.booking WHERE TIME_OF_BOOKING >= CURRENT_TIMESTAMP - INTERVAL ? MINUTE AND BOOKING_USER_ID=? AND BOOKING_ID = ?";
 	@Override
 	public boolean isWaitingTimeExceeded(Payload payload) {

@@ -10,4 +10,9 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka
-    
+
+
+booking:
+   prebooking:
+      advance:
+         allowed-days: 10      
