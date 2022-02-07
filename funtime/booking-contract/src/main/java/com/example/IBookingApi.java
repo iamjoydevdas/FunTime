@@ -2,6 +2,7 @@ package com.example;
 
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -11,6 +12,12 @@ public interface IBookingApi {
 	@GetMapping("/Ok")
 	public String ok();
 	
-	@PostMapping(value="/checkout")
+	@PostMapping(value="/booking")
 	public String checkout(@RequestBody Payload payload);
+	
+	@PostMapping(value="/booking/confirm")
+	public String confirmBooking(@RequestBody Payload payload);
+	
+	@GetMapping(value="/{bookingId}/status")
+	public String bookingStatus(@PathVariable("bookingId") String bookingId);
 }

@@ -16,4 +16,5 @@ public class Payload {
 	private List<Long> seats;
 	private Long userId;
 	private Long movieShowTimeId;
+	private Long bookingId;
 }

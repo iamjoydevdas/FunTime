@@ -19,4 +19,16 @@ public class BookingAPis implements IBookingApi  {
 		return null;
 	}
 
+	@Override
+	public String confirmBooking(Payload payload) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String bookingStatus(String bookingId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
