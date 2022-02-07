@@ -1,0 +1,68 @@
+import com.example.discount.model.DiscountEligible;
+import java.util.*;
+
+
+global com.example.discount.model.DiscountEligible discountEligible;
+dialect  "mvel"
+rule "Calculate Discount CITY, CINEMA HALL AND  - Scenario 1"
+	when
+		discountInstance:DiscountEligible(discountEligibleCity && discountEligibleCinemaHall && discountEligibleAfterNoonShow && noOfTickets>2)
+	then
+		discountEligible.setThirdTicketDiscount(50);
+		discountEligible.setAfterNoonShowDiscount(20);
+		discountEligible.setDiscountDesc("You got 50% discount and 20% discount on third ticket");
+end
+
+					rule "Calculate Discount When HAPPY coupon with senior citizen - Scenario 2"
+	when
+		discountInstance:DiscountEligible(discountEligibleCity && discountEligibleCinemaHall && !discountEligibleAfterNoonShow && noOfTickets>2)
+	then
+		discountEligible.setThirdTicketDiscount(0);
+		discountEligible.setAfterNoonShowDiscount(20);
+		discountEligible.setDiscountDesc("You got 20% discount on third ticket");
+end
+
+rule "Calculate Discount When HAPPY coupon with no minor and senior citizen - Scenario 3"
+	when
+		discountInstance:DiscountEligible(discountEligibleCity && discountEligibleCinemaHall && discountEligibleAfterNoonShow && noOfTickets<=2)
+	then
+		discountEligible.setThirdTicketDiscount(50);
+		discountEligible.setAfterNoonShowDiscount(0);
+		discountEligible.setDiscountDesc("You got 50% discount on total booking");
+end
+
+rule "Calculate Discount When HAPPY coupon with both senior and minor citizen - Scenario 4"
+	when
+		discountInstance:DiscountEligible(discountEligibleCity && discountEligibleCinemaHall && !discountEligibleAfterNoonShow && noOfTickets<=2)
+	then
+		discountEligible.setThirdTicketDiscount(0);
+		discountEligible.setAfterNoonShowDiscount(0);
+		discountEligible.setDiscountDesc("You got no discount.");
+end
+
+rule "Calculate Discount When HAPPY coupon with both senior and minor citizen - Scenario 5"
+	when
+		discountInstance:DiscountEligible(!discountEligibleCity && discountEligibleCinemaHall && !discountEligibleAfterNoonShow && noOfTickets<=2)
+	then
+		discountEligible.setThirdTicketDiscount(0);
+		discountEligible.setAfterNoonShowDiscount(0);
+		discountEligible.setDiscountDesc("You got no discount.");
+end
+
+rule "Calculate Discount When HAPPY coupon with both senior and minor citizen - Scenario 6"
+	when
+		discountInstance:DiscountEligible(discountEligibleCity && !discountEligibleCinemaHall && !discountEligibleAfterNoonShow && noOfTickets<=2)
+	then
+		discountEligible.setThirdTicketDiscount(0);
+		discountEligible.setAfterNoonShowDiscount(0);
+		discountEligible.setDiscountDesc("You got no discount.");
+end	
+
+rule "Calculate Discount When HAPPY coupon with both senior and minor citizen - Scenario 7"
+	when
+		discountInstance:DiscountEligible(!discountEligibleCity && !discountEligibleCinemaHall && !discountEligibleAfterNoonShow && noOfTickets<=2)
+	then
+		discountEligible.setThirdTicketDiscount(0);
+		discountEligible.setAfterNoonShowDiscount(0);
+		discountEligible.setDiscountDesc("You got no discount.");
+end

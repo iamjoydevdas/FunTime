@@ -81,5 +81,6 @@
 		<module>booking</module>
 		<module>booking-feign</module>
     <module>booking-contract</module>
+    <module>discount</module>
   </modules>
 </project>
