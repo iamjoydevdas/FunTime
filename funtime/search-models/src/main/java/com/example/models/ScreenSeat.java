@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import com.example.models.Movie.MovieBuilder;
+import com.example.status.SeatType;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,6 +22,6 @@ import lombok.experimental.FieldNameConstants;
 public class ScreenSeat {
 	private Long seatId;
 	private String seatNo;
-	private String seatType;
+	private SeatType seatType;
 	private List<ShowSeat> bookedSeats;
 }

@@ -3,6 +3,7 @@ package com.example.models;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.example.status.BookingStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -19,6 +20,11 @@ import lombok.NoArgsConstructor;
 public class Booking {
 	private Long bookingId;
 	private LocalDateTime bookingTimeStamp;
-	private Double price;
+	private BookingStatus status;
+	private Double actualPrice;
+	private Integer discount;
+	private Double finallPrice;
+	private LocalDateTime cancelTimeStamp;
 	private List<ShowSeat> bookedSeats;
+	private Movie movie;
 }

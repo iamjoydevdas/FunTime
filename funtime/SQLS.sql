@@ -47,3 +47,43 @@ AND SS.SCREEN_CINEMA_HALL_SEAT_ID = S.SCREEN_ID
 AND S.SCREEN_ID=1 AND MST.MOVIE_SHOW_TIME_ID= 1
 AND CH.CINEMA_HALL_ID=1 */
 
+/*select c.FAV_CITY, ch.FAV_CINEMA_HALL, cnt.total_seats,
+CASE WHEN TIME(mst.MOVIE_SHOW_TIME_STARTTIME) BETWEEN 9.00 AND 12.00 THEN "Morning"
+              WHEN TIME(mst.MOVIE_SHOW_TIME_STARTTIME) BETWEEN 12.01 AND 18.00 THEN "Afternoon"
+              WHEN TIME(mst.MOVIE_SHOW_TIME_STARTTIME) BETWEEN 18.00 AND 24.00 THEN "Evening"
+         END as period
+ from 
+(select b.BOOKING_MOVIE_SHOW_TIME_ID, count(1) total_seats from BOOKING b, show_seat s where b.booking_id=1 and b.booking_id=s.booking_Id) cnt,
+MOVIE_SHOW_TIME mst,
+screen s, CINEMA_HALL ch, city c
+where cnt.BOOKING_MOVIE_SHOW_TIME_ID = mst.MOVIE_SHOW_TIME_ID
+and mst.MOVIE_SHOW_TIME_SCREEN_ID = s.screen_id
+and s.SCREEN_CINEMA_HALL_ID = ch.CINEMA_HALL_ID
+and ch.CINEMA_HALL_CITY_ID = c.city_id */
+
+select total_seats, a.BOOKING_MOVIE_SHOW_TIME_ID, a.booking_id, sum(ss.price) actualPrice from 
+(select count(show_seat_id) as total_seats, b.BOOKING_MOVIE_SHOW_TIME_ID, b.booking_id from BOOKING b, show_seat s
+where b.booking_id=1 and b.booking_id=s.booking_Id) a, show_seat s, screen_seat ss
+where a.booking_id=s.booking_id
+and s.screen_seat_id = ss.SCREEN_SEAT_ID
+
+select c.FAV_CITY, ch.FAV_CINEMA_HALL, cnt.total_seats, actualPrice,
+CASE WHEN TIME(mst.MOVIE_SHOW_TIME_STARTTIME) BETWEEN 9.00 AND 12.00 THEN "Morning"
+              WHEN TIME(mst.MOVIE_SHOW_TIME_STARTTIME) BETWEEN 12.01 AND 18.00 THEN "Afternoon"
+              WHEN TIME(mst.MOVIE_SHOW_TIME_STARTTIME) BETWEEN 18.00 AND 24.00 THEN "Evening"
+         END as period
+ from 
+(
+	select total_seats, a.BOOKING_MOVIE_SHOW_TIME_ID, a.booking_id, sum(ss.price) actualPrice from 
+	(select count(show_seat_id) as total_seats, b.BOOKING_MOVIE_SHOW_TIME_ID, b.booking_id from BOOKING b, show_seat s
+	where b.booking_id=1 and b.booking_id=s.booking_Id) a, show_seat s, screen_seat ss
+	where a.booking_id=s.booking_id
+	and s.screen_seat_id = ss.SCREEN_SEAT_ID
+    
+    ) cnt,
+MOVIE_SHOW_TIME mst,
+screen s, CINEMA_HALL ch, city c
+where cnt.BOOKING_MOVIE_SHOW_TIME_ID = mst.MOVIE_SHOW_TIME_ID
+and mst.MOVIE_SHOW_TIME_SCREEN_ID = s.screen_id
+and s.SCREEN_CINEMA_HALL_ID = ch.CINEMA_HALL_ID
+and ch.CINEMA_HALL_CITY_ID = c.city_id

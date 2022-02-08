@@ -23,6 +23,7 @@ import com.example.models.ShowSeat;
 import com.example.models.ShowTime;
 import com.example.payload.Payload;
 import com.example.srchmgnt.repo.ISearchRepo;
+import com.example.status.SeatType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.AllArgsConstructor;
@@ -204,7 +205,7 @@ public class SearchRepo implements ISearchRepo {
 			return ScreenSeat.builder()
 					.seatId(rs.getLong("SCREEN_SEAT_ID"))
 					.seatNo(rs.getString("SEAT_NUMBER"))
-					.seatType(rs.getString("SEAT_TYPE"))
+					.seatType(SeatType.valueOf(rs.getString("SEAT_TYPE")))
 					.build();
 		}
 	}

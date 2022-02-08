@@ -4,11 +4,14 @@ import static com.example.status.BookingStatus.PENDING;
 import static com.example.status.BookingStatus.RESEREVED_PAYMENT_AWAIT;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
@@ -16,7 +19,12 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.booking.dto.IBookingRepo;
+import com.example.models.Booking;
+import com.example.models.ScreenSeat;
+import com.example.models.ShowSeat;
 import com.example.payload.Payload;
+import com.example.status.BookingStatus;
+import com.example.status.SeatType;
 
 import lombok.RequiredArgsConstructor;
 
@@ -71,7 +79,7 @@ public class BookingRepo implements IBookingRepo {
 			"and  s.booking_id = b.booking_id";
 	
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = { Exception.class })
-	public String confirmBooking(Payload payload) {
+	public void confirmBooking(Payload payload) {
 		jdbcTemplate.update(connection -> {
 			PreparedStatement ps = connection.prepareStatement(CONFIRM_BOOKING, Statement.RETURN_GENERATED_KEYS);
 			ps.setString(1,RESEREVED_PAYMENT_AWAIT.toString());
@@ -80,9 +88,51 @@ public class BookingRepo implements IBookingRepo {
 			ps.setLong(4, payload.getBookingId());
 			return ps;
 		});
-		return null;
+	}
+
+	@Override
+	public Booking bookingStatus(String bookingId) {
+		Booking booking = getBookingStatus(bookingId);
+		return booking;
 	}
 	
 	
-
+	private static final String BOOKING_STATUS = "SELECT BOOKING_ID, NO_OF_SEATS , TIME_OF_BOOKING , BOOKING_STATUS , TIME_OF_BOOKING_CONFIRMATION , ACTUAL_PRICE ,  DISCOUNT , " + 
+			"DISCOUNTED_PRICE , TIME_OF_BOOKING_CANCEL , BOOKING_USER_ID , BOOKING_MOVIE_SHOW_TIME_ID FROM  BOOKING WHERE BOOKING_ID = ? ";
+	private Booking getBookingStatus(String bookingId) {
+		return jdbcTemplate.query(BOOKING_STATUS, new Object[] {bookingId}, new BookingMapper()).get(0);
+	}
+	
+	private class BookingMapper implements RowMapper<Booking> {
+		@Override
+		public Booking mapRow(ResultSet rs, int rowNum) throws SQLException {
+			
+			return Booking.builder()
+					.bookingId(rs.getLong("BOOKING_ID"))
+					.bookingTimeStamp(rs.getTimestamp("Time_OF_BOOKING").toLocalDateTime())
+					.status(BookingStatus.valueOf(rs.getString("BOOKING_STATUS")))
+					.actualPrice(rs.getDouble("ACTUAL_PRICE"))
+					.discount(rs.getInt("DISCOUNT"))
+					.finallPrice(rs.getDouble("DISCOUNTED_PRICE"))
+					.cancelTimeStamp(rs.getTimestamp("Time_OF_BOOKING").toLocalDateTime())
+					.build();
+		}
+	}
+	
+	private static final String SEATS_IN_BOOKING = "SELECT SEAT_NUMBER, SEAT_TYPE FROM show_seat seat, screen_seat s_seat where booking_id=? " + 
+			"and seat.screen_seat_id = s_seat.screen_seat_id";
+	private List<ScreenSeat> getBookingSeats(String bookingId) {
+		return jdbcTemplate.query(SEATS_IN_BOOKING, new Object[] {bookingId}, new ScreenSeatMapper());
+	}
+	
+	private class ScreenSeatMapper implements RowMapper<ScreenSeat> {
+		@Override
+		public ScreenSeat mapRow(ResultSet rs, int rowNum) throws SQLException {
+			
+			return ScreenSeat.builder()
+					.seatNo(rs.getString("SEAT_NUMBER"))
+					.seatType(SeatType.valueOf(rs.getString("SEAT_TYPE")))
+					.build();
+		}
+	}
 }

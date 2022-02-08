@@ -1,6 +1,6 @@
 package com.example.discount.api;
 
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -11,10 +11,10 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 @RestController
-public class DiscountApi {
+public class DiscountApi implements IDiscountAPi {
 	private final IDiscountService discountService;
 	
-	@GetMapping("/discount")
+	@PostMapping("/discount")
 	public DiscountEligible getDiscount(@RequestBody DiscountEligible discountEligible) {
 		return discountService.calculateDiscount(discountEligible);
 	}

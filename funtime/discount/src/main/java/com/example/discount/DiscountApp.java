@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  *
  */
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages="com.example")
 public class DiscountApp 
 {
     public static void main( String[] args )

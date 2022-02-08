@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.booking.dto.IBookingRepo;
 import com.example.booking.service.IBookingService;
+import com.example.models.Booking;
 import com.example.payload.Payload;
 
 import lombok.AllArgsConstructor;
@@ -19,13 +20,13 @@ public class BookingService implements IBookingService {
 	}
 
 	@Override
-	public String confirmBooking(Payload payload) {
-		return bookingRepo.confirmBooking(payload);
+	public void confirmBooking(Payload payload) {
+		bookingRepo.confirmBooking(payload);
 	}
 
 	@Override
-	public String bookingStatus(String bookingId) {
+	public Booking bookingStatus(String bookingId) {
+		// TODO Auto-generated method stub
 		return null;
 	}
-	
 }
