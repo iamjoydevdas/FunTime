@@ -21,7 +21,7 @@ public class CinemaHall {
 	private Long cinemaHallId;
 	private String cinemaHallShortName;
 	private String cinemaHallName;
-	private String totalScreens;
+	private String favCity;
 	private Long cityId;
 
 	private List<Screen> screens;
@@ -31,7 +31,6 @@ public class CinemaHall {
 		this.cinemaHallId = ch.cinemaHallId;
 		this.cinemaHallName = ch.cinemaHallName;
 		this.cinemaHallShortName = ch.cinemaHallShortName;
-		this.totalScreens = ch.totalScreens;
 		
 		this.screens = screens.entrySet().stream().map(entry -> new Screen(entry.getKey(),entry.getValue())).collect(Collectors.toList());
 	}
