@@ -26,5 +26,6 @@ public class ScreenSeat {
 	private Long seatId;
 	private String seatNo;
 	private SeatType seatType;
+	private String price;
 	private List<ShowSeat> bookedSeats;
 }

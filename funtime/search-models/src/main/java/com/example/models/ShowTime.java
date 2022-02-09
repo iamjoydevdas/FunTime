@@ -19,8 +19,8 @@ import lombok.NoArgsConstructor;
 public class ShowTime {
 	private Long movieShowId;
 	private LocalDate movieShowDate;
-	private String movieShowStartTime;
-	private String movieShowEndTime;
+	private Double movieShowStartTime;
+	private Double movieShowEndTime;
 	
 	private Movie movie;
 	private List<Booking> bookings;

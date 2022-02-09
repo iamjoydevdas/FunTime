@@ -24,5 +24,17 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.paytm/pgplussdk -->
+		<dependency>
+			<groupId>com.paypal.sdk</groupId>
+			<artifactId>rest-api-sdk</artifactId>
+			<version>1.4.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.example</groupId>
+			<artifactId>payment-contract</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 </project>

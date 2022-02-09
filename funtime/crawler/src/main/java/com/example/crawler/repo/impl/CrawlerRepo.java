@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.User;
 import com.example.crawler.repo.ICrawlerRepo;
 import com.example.status.BookingStatus;
 
@@ -58,6 +59,19 @@ public class CrawlerRepo implements ICrawlerRepo {
             }
 
         });
+		
+	}
+
+	@Override
+	public List<User> getAllUsersToNotify() {
+		// Return USERS with Reserved status
+		return null;
+	}
+
+	@Override
+	public void updateNotificationStatus(Long bookingId) {
+		// Notificationa status in booking table
+		//Also, make a entry in NOTIFICATION table with time stamp
 		
 	}
 

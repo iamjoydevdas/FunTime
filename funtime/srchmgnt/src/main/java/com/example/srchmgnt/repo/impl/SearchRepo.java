@@ -113,7 +113,7 @@ public class SearchRepo implements ISearchRepo {
 						.cinemaHallShortName(rs.getString("CINEMA_HALL_SHORT_NAME"))
 					.build();
 			Screen screen = Screen.builder().screenId(rs.getLong("SCREEN_ID")).screenName(rs.getString("SCREEN_NAME")).build();
-			ShowTime showTime = ShowTime.builder().movieShowId(rs.getLong("MOVIE_SHOW_TIME_ID")).movieShowStartTime(rs.getString("MOVIE_SHOW_TIME_STARTTIME")).build();
+			ShowTime showTime = ShowTime.builder().movieShowId(rs.getLong("MOVIE_SHOW_TIME_ID")).movieShowStartTime(rs.getDouble("MOVIE_SHOW_TIME_STARTTIME")).build();
 			
 			Map<Screen, List<ShowTime>> screenMap = cinemaHalls.get(ch);
 			if(screenMap == null) {

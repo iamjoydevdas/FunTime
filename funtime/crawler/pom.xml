@@ -9,9 +9,7 @@
 		<artifactId>funtime</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<groupId>com.example</groupId>
 	<artifactId>crawler</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
 	<name>crawler</name>
 	<url>http://maven.apache.org</url>
 	<properties>
@@ -29,6 +27,11 @@
 		<dependency>
 			<groupId>com.example</groupId>
 			<artifactId>search-models</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.example</groupId>
+			<artifactId>user-contract</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>

@@ -18,15 +18,13 @@ import lombok.NoArgsConstructor;
 public class Screen {
 	private Long screenId;
 	private String screenName;
-	private Integer totalSeats;
 	private List<ShowTime> movieShow;
-	
+	private Long cinemaHallId;
 	private List<ScreenSeat> seats;
 	
 	public Screen(Screen s, List<ShowTime> movieShow) {
 		this.screenId = s.screenId;
 		this.screenName = s.screenName;
-		this.totalSeats = s.totalSeats;
 		this.movieShow = movieShow;
 	}
 }
