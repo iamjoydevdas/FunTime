@@ -1,9 +1,9 @@
 server:
-  port: 8082
+  port: 8085
   
 spring:
   application:
-    name: booking-management
+    name: crawler-management
     
     
 eureka:
@@ -11,4 +11,8 @@ eureka:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka
 
- 
+
+booking:
+   prebooking:
+      awit:
+         time-in-seconds: 300    

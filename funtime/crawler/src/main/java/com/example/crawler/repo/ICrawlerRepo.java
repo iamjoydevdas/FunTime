@@ -1,4 +1,4 @@
-package com.example.booking.dto;
+package com.example.crawler.repo;
 
 public interface ICrawlerRepo {
 	void invalidateExceededAwitedBookings();

@@ -89,5 +89,8 @@
     <module>payment</module>
     <module>payment-contract</module>
     <module>payment-feign</module>
+    <module>hall-mgnt</module>
+    <module>admin</module>
+    <module>crawler</module>
   </modules>
 </project>

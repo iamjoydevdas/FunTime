@@ -1,19 +1,21 @@
 package com.example.booking;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 import com.example.booking.dto.impl.BookingRepo;
-import com.example.payload.Payload;
+
 
 @EnableFeignClients(basePackages="com.example")
 @EnableAspectJAutoProxy(proxyTargetClass=true)  
-@SpringBootApplication(scanBasePackages="com.example")
+@SpringBootApplication(scanBasePackages= {"com.example", "com.example.booking.crawler"})
 public class BookingManagement implements CommandLineRunner
 {
 	@Autowired
@@ -26,6 +28,6 @@ public class BookingManagement implements CommandLineRunner
     
 	@Override
 	public void run(String... args) throws Exception {
-	//	repo.confirmBooking(Payload.builder().userId(1L).movieShowTimeId(1L).build());
+		
 	}
 }
