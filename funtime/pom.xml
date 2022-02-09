@@ -92,5 +92,7 @@
     <module>hall-mgnt</module>
     <module>admin</module>
     <module>crawler</module>
+    <module>router-module</module>
+    <module>inapi</module>
   </modules>
 </project>
