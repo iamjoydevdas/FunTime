@@ -17,7 +17,7 @@ public class ActiveBookingCrawler {
 	
 	private final ICrawlerRepo crawlerRepo;
 	
-	@Scheduled(fixedDelay=1)
+	@Scheduled(fixedDelay=1000)
 	public void invalidateExceededAwitedBookings() {
 		 log.info("I am running"); 
 		 crawlerRepo.invalidateExceededAwitedBookings(); 
