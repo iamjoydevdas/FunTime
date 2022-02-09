@@ -94,7 +94,7 @@ public class SearchController {
 		return new ResponseHandlers<List<ScreenSeat>>().defaultResponse(searchService.getScreenSeats(cityId, movieId, cinemaHallId, screenId, movieShowTimeId, date));
 	}
 	
-	@GetMapping("/{city}/{movie}/{cinemaHall}/{screen}/{movieShow}/bookedseats")
+	@GetMapping("/{city}/{movie}/{cinemaHall}/{screen}/{movieShow}/reserved")
 	public ResponseEntity<ServiceResponse<List<ShowSeat>>> getBookedSeatsByScreen(
 			@PathVariable("city") String cityId, 
 			@PathVariable("movie") Long movieId, 

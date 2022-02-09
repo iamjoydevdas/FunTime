@@ -210,22 +210,17 @@ public class SearchRepo implements ISearchRepo {
 		}
 	}
 
-	private static final String FETCH_ALL_BOOKED_SEATS_IN_A_SCREEN = "SELECT SEAT.SCREEN_SEAT_ID, SHOW_SEAT_STATUS " + 
-			"FROM CITY C, CINEMA_HALL CH, SCREEN S, MOVIE_SHOW_TIME MST, MOVIE M, SCREEN_SEAT SS, BOOKING B, SHOW_SEAT SEAT " + 
-			"WHERE  " + 
-			"C.CITY_SHORT_NAME = ? AND C.CITY_ID =  CH.CINEMA_HALL_CITY_ID " + 
-			"AND CH.CINEMA_HALL_ID = S.SCREEN_CINEMA_HALL_ID " + 
-			"AND MST.MOVIE_SHOW_TIME_SCREEN_ID = S.SCREEN_ID " + 
-			"AND M.MOVIE_ID = MST.MOVIE_SHOW_TIME_MOVIE_ID AND M.MOVIE_ID= ? " + 
-			"AND SS.SCREEN_CINEMA_HALL_SEAT_ID = S.SCREEN_ID " + 
-			"AND CH.CINEMA_HALL_ID=? AND S.SCREEN_ID=? AND MST.MOVIE_SHOW_TIME_ID= ? " +
-			"AND B.BOOKING_MOVIE_SHOW_TIME_ID = MST.MOVIE_SHOW_TIME_ID " + 
-			"AND SEAT.SCREEN_SEAT_ID = SS.SCREEN_SEAT_ID  AND DATE(MOVIE_SHOW_TIME_DATE) = ?";
+	private static final String FETCH_ALL_BOOKED_SEATS_IN_A_SCREEN = "select ss.SCREEN_SEAT_ID, SHOW_SEAT_STATUS from " + 
+			"MOVIE_SHOW_TIME mst, screen s, SHOW_SEAT ss, city c, CINEMA_HALL CH  where MST.MOVIE_SHOW_TIME_ID=?  " + 
+			"AND MST.MOVIE_SHOW_TIME_SCREEN_ID = S.SCREEN_ID and S.SCREEN_ID =? and MST.MOVIE_SHOW_TIME_MOVIE_ID=mst.MOVIE_SHOW_TIME_ID " + 
+			"AND SHOW_SEAT_STATUS <> 2 " + 
+			"and C.CITY_SHORT_NAME = ? AND C.CITY_ID =  CH.CINEMA_HALL_CITY_ID   " + 
+			"AND CH.CINEMA_HALL_ID = S.SCREEN_CINEMA_HALL_ID AND DATE(MOVIE_SHOW_TIME_DATE) = ? ";
 	
 	@Override
 	public List<ShowSeat> getScreenBookedSeats(String cityId, Long movieId, Long cinemaHallId, Long screenId,
 			Long movieShowTimeId, LocalDate date) {
-		return jdbcTemplate.query(FETCH_ALL_BOOKED_SEATS_IN_A_SCREEN, new Object[] { cityId, movieId, cinemaHallId, screenId, movieShowTimeId, date } , new ShowSeatMapper());
+		return jdbcTemplate.query(FETCH_ALL_BOOKED_SEATS_IN_A_SCREEN, new Object[] { movieShowTimeId, screenId, cityId, date } , new ShowSeatMapper());
 	}
 	
 	private class ShowSeatMapper implements RowMapper<ShowSeat> {
@@ -234,7 +229,7 @@ public class SearchRepo implements ISearchRepo {
 			
 			return ShowSeat.builder()
 					.bookedSeatId(rs.getLong("SCREEN_SEAT_ID"))
-					.status(rs.getString("SHOW_SEAT_STATUS"))
+					//.status(rs.getString("SHOW_SEAT_STATUS"))
 				//	.seatId(rs.getLong("SCREEN_SEAT_ID"))
 					.build();
 		}

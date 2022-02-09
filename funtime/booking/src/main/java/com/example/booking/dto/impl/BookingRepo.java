@@ -43,7 +43,7 @@ public class BookingRepo implements IBookingRepo {
 
 		jdbcTemplate.update(connection -> {
 			PreparedStatement ps = connection.prepareStatement(INITIATE_BOOKING, Statement.RETURN_GENERATED_KEYS);
-			ps.setInt(1, 1);
+			ps.setInt(1, payload.getSeats().size());
 			ps.setString(2, PENDING.toString());
 			ps.setLong(3, payload.getMovieShowTimeId());
 			ps.setLong(4, payload.getUserId());

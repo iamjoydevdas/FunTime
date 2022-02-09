@@ -1,0 +1,18 @@
+server:
+  port: 8081
+  
+spring:
+  application:
+    name: search-management
+    
+    
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+
+
+booking:
+   prebooking:
+      advance:
+         allowed-days: 10      

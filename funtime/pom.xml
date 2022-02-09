@@ -84,5 +84,10 @@
     <module>discount</module>
     <module>discount-contract</module>
     <module>discount-feign</module>
+    <module>user</module>
+    <module>user-contract</module>
+    <module>payment</module>
+    <module>payment-contract</module>
+    <module>payment-feign</module>
   </modules>
 </project>

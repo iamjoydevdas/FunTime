@@ -29,7 +29,7 @@ public class DiscountRepo implements IDiscountRepo {
 			"( " + 
 			"	select total_seats, a.BOOKING_MOVIE_SHOW_TIME_ID, a.booking_id, sum(ss.price) actualPrice from  " + 
 			"	(select count(show_seat_id) as total_seats, b.BOOKING_MOVIE_SHOW_TIME_ID, b.booking_id from BOOKING b, show_seat s " + 
-			"	where b.booking_id=1 and b.booking_id=s.booking_Id) a, show_seat s, screen_seat ss " + 
+			"	where b.booking_id=? and b.booking_id=s.booking_Id) a, show_seat s, screen_seat ss " + 
 			"	where a.booking_id=s.booking_id " + 
 			"	and s.screen_seat_id = ss.SCREEN_SEAT_ID " + 
 			"     " + 
@@ -53,9 +53,9 @@ public class DiscountRepo implements IDiscountRepo {
 			
 			return DiscountEligible.builder()
 					.actualPrice(rs.getDouble("actualPrice"))
-					.discountEligibleAfterNoonShow(DayShowNames.AFTERNOON.equals(DayShowNames.valueOf(rs.getString("period"))))
+					.discountEligibleAfterNoonShow(DayShowNames.AFTERNOON.equals(DayShowNames.valueOf(rs.getString("period").toUpperCase())))
 					.discountEligibleCinemaHall("Y".equalsIgnoreCase(rs.getString("FAV_CINEMA_HALL")))
-					.discountEligibleCinemaHall("Y".equalsIgnoreCase(rs.getString("FAV_CITY")))
+					.discountEligibleCity("Y".equalsIgnoreCase(rs.getString("FAV_CITY")))
 					.noOfTickets(rs.getLong("total_seats"))
 					.build();
 		}
@@ -72,7 +72,7 @@ public class DiscountRepo implements IDiscountRepo {
 	@Override
 	public void updatePrice(Long bookingId, DiscountEligible discountEligible) {
 		jdbcTemplate.update(UPDATE_DISCOUNT_DETAILS, new Object[] {discountEligible.getActualPrice(), discountEligible.getDiscountDesc(), 
-				BookingUtils.getFinalAmount(discountEligible), BookingStatus.RESEREVED_PAYMENT_AWAIT, bookingId});
+				BookingUtils.getFinalAmount(discountEligible), 6, bookingId});
 	}
 
 }

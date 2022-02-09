@@ -5,6 +5,8 @@ import java.util.List;
 
 import com.example.models.Movie.MovieBuilder;
 import com.example.status.SeatType;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,6 +21,7 @@ import lombok.experimental.FieldNameConstants;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@JsonInclude(value=Include.NON_NULL)
 public class ScreenSeat {
 	private Long seatId;
 	private String seatNo;

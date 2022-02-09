@@ -1,6 +1,8 @@
 package com.example.booking.api;
 
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,6 +33,18 @@ public class BookingAPis implements IBookingApi  {
 
 	@Override
 	public ResponseEntity<ServiceResponse<Booking>> bookingStatus(String bookingId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResponseEntity<ServiceResponse<Booking>> cancelBooking(String bookingId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResponseEntity<ServiceResponse<List<Booking>>> userBookings(String userId) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -8,6 +8,8 @@ import java.sql.Statement;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.booking.dto.ICrawlerRepo;
 
@@ -26,6 +28,7 @@ public class CrawlerRepo implements ICrawlerRepo {
 			"where s.booking_id = b.booking_id " + 
 			"AND b.TIME_OF_BOOKING >= CURRENT_TIMESTAMP - INTERVAL ? MINUTE  "; 
 	
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = { Exception.class })
 	@Override
 	public void invalidateExceededAwitedBookings() {
 		jdbcTemplate.update(connection -> {

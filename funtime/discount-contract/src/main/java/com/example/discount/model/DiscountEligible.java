@@ -12,7 +12,7 @@ public class DiscountEligible {
 	private Long noOfTickets;
 	private Double actualPrice;
 	
-	private Long thirdTicketDiscount;
-	private Long afterNoonShowDiscount;
+	private Long thirdTicketDiscount=0L;
+	private Long afterNoonShowDiscount=0L;
 	private String discountDesc;
 }

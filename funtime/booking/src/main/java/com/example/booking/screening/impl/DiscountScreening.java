@@ -21,6 +21,7 @@ public class DiscountScreening {
 	@After(value = "execution(* com.example.booking.dto.impl.BookingRepo.confirmBooking(..)) and args(payload)")
 	public void calculateDiscount(Payload payload) {
 		DiscountEligible eligibleDiscount = discountRepo.getEligibleDiscount(payload.getBookingId());
-		
+		DiscountEligible discount = feign.getDiscount(eligibleDiscount);
+		discountRepo.updatePrice(payload.getBookingId(), discount);
 	}
 }
