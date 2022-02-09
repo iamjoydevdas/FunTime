@@ -3,7 +3,6 @@ package com.example.crawler.repo.impl;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -27,7 +26,7 @@ public class CrawlerRepo implements ICrawlerRepo {
 	@Value("${booking.prebooking.awit.time-in-seconds}")
 	private Integer awitingTime;
 	
-	private static final String FETCH_EXCEEDED_AWAITING_BOOKINGS = "select booking_id from booking where UNIX_TIMESTAMP(now()) - UNIX_TIMESTAMP(time_of_booking) > 300"; 
+	private static final String FETCH_EXCEEDED_AWAITING_BOOKINGS = "select booking_id from booking where UNIX_TIMESTAMP(now()) - UNIX_TIMESTAMP(time_of_booking) > ?"; 
 	
 	private static final String INVALIDED_EXCEEDED_AWAITING_BOOKINGS = "update booking b, show_seat s " + 
 																		"set booking_status = ?, SHOW_SEAT_STATUS = ?  " + 
@@ -37,12 +36,14 @@ public class CrawlerRepo implements ICrawlerRepo {
 	@Override
 	public void invalidateExceededAwitedBookings() {
 		System.out.println(awitingTime);
-		List<Long> exceededBookingIds = new ArrayList();
-		jdbcTemplate.query(FETCH_EXCEEDED_AWAITING_BOOKINGS,  (rs) -> {
-				exceededBookingIds.add(rs.getLong(1));
-			});
+		List<Long> exceededBookingIds = jdbcTemplate.query(FETCH_EXCEEDED_AWAITING_BOOKINGS, new Object[] {awitingTime}, new RowMapper<Long>() {
+			@Override
+			public Long mapRow(ResultSet rs, int rowNum) throws SQLException {
+				return rs.getLong(1);
+			}
+			
+		});
 		
-		System.out.println(exceededBookingIds);
 		jdbcTemplate.batchUpdate(INVALIDED_EXCEEDED_AWAITING_BOOKINGS, new BatchPreparedStatementSetter() {
 
             public void setValues(PreparedStatement ps, int i) 
