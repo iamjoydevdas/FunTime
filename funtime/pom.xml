@@ -94,5 +94,6 @@
     <module>crawler</module>
     <module>router-module</module>
     <module>inapi</module>
+    <module>admin-inapi</module>
   </modules>
 </project>

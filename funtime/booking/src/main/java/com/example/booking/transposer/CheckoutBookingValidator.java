@@ -13,23 +13,19 @@ import lombok.AllArgsConstructor;
 @Aspect  
 @Component 
 @AllArgsConstructor
-public class BookingValidator {
+public class CheckoutBookingValidator {
 	private final IBookingValidator bookingValidator;
 
-	@Before(value = "execution(* com.example.booking.dto.impl.BookingRepo.confirmBooking(..)) and args(payload)")
-	public void isWaitingTimeExceeded(JoinPoint joinPoint, Payload payload) {
-		if(bookingValidator.isWaitingTimeExceeded(payload)) {
-			System.out.println("Exception");
-		//	throw new FunTimeException(HttpStatus.NOT_FOUND, "Waiting time exceeded for this booking.");
-		}
+	@Before(value = "execution(* com.example.booking.dto.impl.BookingRepo.checkout(..)) and args(payload)")
+	public void isSeatTakenByOthers(JoinPoint joinPoint, Payload payload) {
+		// TODO this is query and check if that seat is reserved for others and provide necessary exception msg if present
 	}
 
 
 	@Before(value =
 			"execution(* com.example.booking.dto.impl.BookingRepo.confirmBooking(..)) and args(payload)"
 			) 
-	public void isThereAnyOtherBookingOnTheSeats(JoinPoint joinPoint, Payload payload) {
-		bookingValidator.isSeatBookedWithOtherUsers(payload);
+	public void isTicketSoldOutForThisScreen(JoinPoint joinPoint, Payload payload) {
+		// TODO this is query will check if that hall is full and provide necessary exception msg if present
 	}
-
 }
