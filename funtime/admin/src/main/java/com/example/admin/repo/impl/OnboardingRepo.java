@@ -1,4 +1,4 @@
-package com.example.admin.repo;
+package com.example.admin.repo.impl;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -9,6 +9,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import com.example.admin.repo.IOnboardingRepo;
 import com.example.models.CinemaHall;
 import com.example.models.City;
 import com.example.models.Movie;
@@ -17,7 +18,7 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 @Repository
-public class OnboardingRepo {
+public class OnboardingRepo implements IOnboardingRepo {
 	private final JdbcTemplate jdbcTemplate;
 	
 	private static final String NEW_CITY = "INSERT INTO city (CITY_SHORT_NAME, CITY_NAME, CITY_STATE, CITY_PIN, FAV_CITY, AVTIVE) VALUES (?,?,?,?,?,true)";

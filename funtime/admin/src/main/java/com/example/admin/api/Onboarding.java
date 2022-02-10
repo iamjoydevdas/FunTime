@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.admin.repo.OnboardingRepo;
+import com.example.admin.service.IOnboardingService;
 import com.example.handlers.ResponseHandlers;
 import com.example.model.ServiceResponse;
 import com.example.models.CinemaHall;
@@ -17,7 +17,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 @RestController
 public class Onboarding {
-	private final OnboardingRepo onboarding;
+	private final IOnboardingService onboarding;
 	
 	@PostMapping("/city")
 	public ResponseEntity<ServiceResponse<Long>> onboardNewCity(@RequestBody City city) {
